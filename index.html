@@ -1,662 +1,621 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>雨祁导航 - 工具类</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-primary: #F8F8F8;
-      --bg-secondary: #FFFFFF;
-      --card-bg: #FFFFFF;
-      --card-hover: #FFFFFF;
-      --accent: #0d9488;
-      --accent-light: rgba(13, 148, 136, 0.1);
-      --accent-glow: rgba(13, 148, 136, 0.2);
-      --text-primary: #1f2937;
-      --text-secondary: #374151;
-      --text-muted: #6b7280;
-      --border: #e5e7eb;
-      --border-hover: #0d9488;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雨祁资源导航</title>
+    <link rel="icon" href="https://i.postimg.cc/pXgjjZC6/h-3.jpg" type="image/x-icon">
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6; /* 主题蓝 */
+            --primary-light: #eff6ff; /* 淡蓝背景 */
+            --primary-dark: #1d4ed8; /* 深蓝 */
+            --text-main: #1f2937;     /* 主文字色 */
+            --text-sub: #6b7280;      /* 副文字色 */
+            --bg-body: #f3f4f6;       /* 页面背景 */
+            --card-bg: #ffffff;       /* 卡片背景 */
+            --border-radius: 8px;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Noto Sans SC', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: "/朱雀仿宋.ttf";
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
 
-    /* 背景装饰 */
-    .bg-pattern {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
+        /* 页面容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* 竖直排列 */
+            gap: 30px;
+        }
 
-    .bg-gradient-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.6;
-      animation: float 25s ease-in-out infinite;
-    }
+        /* 页面标题 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            color: #000;
+        }
 
-    .orb-1 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(13, 148, 136, 0.15) 0%, transparent 70%);
-      top: -150px;
-      right: -100px;
-      animation-delay: 0s;
-    }
+        #one {
+            font-size: 3.5em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
 
-    .orb-2 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-      bottom: -100px;
-      left: -100px;
-      animation-delay: -12s;
-    }
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
 
-    .orb-3 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(13, 148, 136, 0.08) 0%, transparent 70%);
-      top: 40%;
-      left: 30%;
-      animation-delay: -6s;
-    }
+        /* 分类板块 */
+        .category-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
 
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(20px, -20px) scale(1.03); }
-      66% { transform: translate(-15px, 15px) scale(0.97); }
-    }
+        /* 板块头部 */
+        .section-header {
+            background-color: var(--primary-light);
+            padding: 15px 25px;
+            border-bottom: 1px solid #ebe8e5;
+            display: flex;
+            align-items: center;
+        }
 
-    /* 点阵背景 */
-    .dot-pattern {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
+        .section-header i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
 
-    /* 主容器 */
-    .main-container {
-      position: relative;
-      z-index: 1;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
 
-    /* 标题区域 */
-    .header {
-      font-family: "/朱雀仿宋.ttf";
-      text-align: center;
-      margin-bottom: 60px;
-      opacity: 0;
-      transform: translateY(-30px);
-      animation: fadeInDown 0.8s ease forwards;
-    }
+        /* Grid 布局容器 */
+        /* 默认一行四个 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px;
+           
+        }
 
-    .main-title {
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-      position: relative;
-      display: inline-block;
-    }
+        /* 链接小块 */
+        .link-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            display: flex; /* 图标和文字横向排列 */
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            min-height: 90px;
+             margin-top: 10px;
+        }
 
-    .main-title::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 4px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
+        .link-card:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+            border-left: 5px solid #2991ec;
+            border-radius: 5px;
+        }
 
-    .subtitle {
-      margin-top: 24px;
-      color: var(--text-muted);
-      font-size: 1rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-    }
+        /* 图标样式 */
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            transition: background-color 0.2s;
+        }
 
-    @keyframes fadeInDown {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .link-card:hover .icon-box {
+            background-color: #dbeafe;
+        }
 
-    /* 板块容器 */
-    .section {
-      margin-bottom: 50px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        /* 文字区域 */
+        .text-box {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    .section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .link-title {
+            font-weight: 600;
+            font-size: 1.2em;
+            color: #111827;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-    /* 板块标题 */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding-left: 4px;
-    }
+        .link-desc {
+            font-family: "/朱雀仿宋.ttf";
+            font-size: 1em;
+            color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-    .section-icon {
-      width: 42px;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--accent);
-      border-radius: 10px;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
-    }
+        /* 响应式设计 */
+        @media (max-width: 1000px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 中屏两列 */
+            }
+        }
 
-    .section-icon svg {
-      width: 22px;
-      height: 22px;
-      color: white;
-    }
-
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
-
-    .section-count {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      background: var(--bg-secondary);
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-
-    /* 卡片网格 */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 1024px) {
-      .cards-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* 卡片样式 */
-    .card {
-      position: relative;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow: hidden;
-      text-decoration: none;
-      display: block;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-      background: var(--card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-5px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(13, 148, 136, 0.1);
-    }
-
-    .card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .card:active {
-      transform: translateY(-2px) scale(0.99);
-    }
-
-    .card-icon {
-      width: 46px;
-      height: 46px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--accent-light);
-      border-radius: 10px;
-      margin-bottom: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover .card-icon {
-      background: rgba(13, 148, 136, 0.18);
-      transform: scale(1.05);
-    }
-
-    .card-icon svg {
-      width: 24px;
-      height: 24px;
-      color: var(--accent);
-    }
-
-    .card-name {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .card-desc {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* 涟漪效果 */
-    .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(13, 148, 136, 0.25);
-      transform: scale(0);
-      animation: ripple-effect 0.6s ease-out;
-      pointer-events: none;
-    }
-
-    @keyframes ripple-effect {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
-
-    /* 减少动画 */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr; /* 小屏一列 */
+            }
+            
+            #one {
+                font-size: 1.4rem;
+            }
+            
+            .link-card {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-pattern">
-    <div class="bg-gradient-orb orb-1"></div>
-    <div class="bg-gradient-orb orb-2"></div>
-    <div class="bg-gradient-orb orb-3"></div>
-    <div class="dot-pattern"></div>
-  </div>
 
-  <div class="main-container">
-    <header class="header">
-      <h1 class="main-title">工具导航</h1>
-      <p class="subtitle">精选实用工具合集</p>
-    </header>
+    <div class="container">
+        <header>
+            <span id="one">雨祁资源导航</span>
+            <p>生活不止眼前的苟且，还有诗和远方，记得爱自己</p>
+        </header>
 
-    <div class="section visible">
-      <div class="section-header">
-        <div class="section-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+        <!-- 工具类板块 -->
+        <div class="category-section">
+            <div class="section-header">
+                <i class="fas fa-toolbox"></i>
+                <div class="section-title">工具类</div>
+            </div>
+            <div class="grid-container">
+                <!-- 1 -->
+                <a href="https://www.online-convert.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-file-export"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">在线文件转换</div>
+                        <div class="link-desc">Online-Convert</div>
+                    </div>
+                </a>
+                <!-- 2 -->
+                <a href="https://postimages.org/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-images"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">免费图床</div>
+                        <div class="link-desc">Postimages</div>
+                    </div>
+                </a>
+                <!-- 3 -->
+                <a href="http://www.janpn.org/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-book-open"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">免费小说下载</div>
+                        <div class="link-desc">键盘小说网</div>
+                    </div>
+                </a>
+                <!-- 4 -->
+                <a href="https://www.ilovepdf.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-file-pdf"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">文档转换工具</div>
+                        <div class="link-desc">ILovePDF</div>
+                    </div>
+                </a>
+                <!-- 5 -->
+                <a href="https://www.aplaybox.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-cube"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">游戏模型网站</div>
+                        <div class="link-desc">模之屋</div>
+                    </div>
+                </a>
+                <!-- 6 -->
+                <a href="https://gamebanana.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-globe"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">外网模型网站</div>
+                        <div class="link-desc">GameBanana</div>
+                    </div>
+                </a>
+                <!-- 7 -->
+                <a href="https://mod.3dmgame.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-gamepad"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">3DM模型网站</div>
+                        <div class="link-desc">3DMGAME</div>
+                    </div>
+                </a>
+                <!-- 8 -->
+                <a href="https://css.bqrdh.com/safety-color" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-palette"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">CSS可视化</div>
+                        <div class="link-desc">CSS控件资源</div>
+                    </div>
+                </a>
+                <!-- 9 -->
+                <a href="https://uiverse.io/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-ui-div"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">UIVERSE</div>
+                        <div class="link-desc">CSS控件资源</div>
+                    </div>
+                </a>
+                <!-- 10 -->
+                <a href="https://www.meiye.art/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-leaf"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">美叶</div>
+                        <div class="link-desc">设计素材</div>
+                    </div>
+                </a>
+                <!-- 11 -->
+                <a href="https://www.photopea.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-paint-brush"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">PS网页版</div>
+                        <div class="link-desc">Photopea</div>
+                    </div>
+                </a>
+                <!-- 12 -->
+                <a href="https://agent.minimaxi.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-robot"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">AI助手</div>
+                        <div class="link-desc">Minimaxi</div>
+                    </div>
+                </a>
+                <!-- 13 -->
+                <a href="https://www.mnggiflab.com/product-mng/gif2webp" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-video"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">视频转换工具</div>
+                        <div class="link-desc">MngGifLab</div>
+                    </div>
+                </a>
+                <!-- 14 -->
+                <a href="https://help.ldmnq.com/docs/PQ917d" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-microchip"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">驱动升级</div>
+                        <div class="link-desc">雷电模拟器</div>
+                    </div>
+                </a>
+                <!-- 15 -->
+                <a href="https://xn--cjr960cm4qezv.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-desktop"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">桌面美化1</div>
+                        <div class="link-desc">桌面星球</div>
+                    </div>
+                </a>
+                <!-- 16 -->
+                <a href="https://winmoes.com/tools/12948.html" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-paint-roller"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">桌面美化2</div>
+                        <div class="link-desc">枫的主题美化</div>
+                    </div>
+                </a>
+                <!-- 17 -->
+                <a href="https://scratch.zhike.in/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-child"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">少儿编程</div>
+                        <div class="link-desc">Scratch</div>
+                    </div>
+                </a>
+                <!-- 18 -->
+                <a href="https://fontawesome.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fab fa-font-awesome-flag"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">图标库</div>
+                        <div class="link-desc">Font Awesome</div>
+                    </div>
+                </a>
+                <!-- 19 -->
+                <a href="https://cloud.umami.is/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">博客数据集成</div>
+                        <div class="link-desc">Umami</div>
+                    </div>
+                </a>
+                <!-- 20 -->
+                <a href="https://cloud.mongodb.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-database"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">博客评论系统</div>
+                        <div class="link-desc">MongoDB</div>
+                    </div>
+                </a>
+                <!-- 21 -->
+                <a href="https://gname.vip/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-globe-asia"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">域名申请</div>
+                        <div class="link-desc">Gname</div>
+                    </div>
+                </a>
+            </div>
         </div>
-        <h2 class="section-title">实用工具</h2>
-        <div class="section-line"></div>
-        <span class="section-count">21 项</span>
-      </div>
 
-      <div class="cards-grid">
-        <!-- 1.在线文件转换 -->
-        <a href="https://www.online-convert.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-            </svg>
-          </div>
-          <h3 class="card-name">在线文件转换</h3>
-          <p class="card-desc">支持多种文件格式的在线转换工具</p>
-        </a>
+        <!-- 娱乐类板块 -->
+        <div class="category-section">
+            <div class="section-header">
+                <i class="fas fa-gamepad"></i>
+                <div class="section-title">娱乐类</div>
+            </div>
+            <div class="grid-container">
+                <!-- 1 -->
+                <a href="https://wiki.biligame.com/ys/%E9%A6%96%E9%A1%B5" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-wind"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">原神Wiki</div>
+                        <div class="link-desc">攻略大全</div>
+                    </div>
+                </a>
+                <!-- 2 -->
+                <a href="https://www.mcmod.cn/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-cubes"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">MC百科</div>
+                        <div class="link-desc">最大MC论坛</div>
+                    </div>
+                </a>
+                <!-- 3 -->
+                <a href="https://klpbbs.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-fire"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">苦力怕论坛</div>
+                        <div class="link-desc">基岩版论坛</div>
+                    </div>
+                </a>
+                <!-- 4 -->
+                <a href="https://www.minebbs.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-cube"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">MCBBS</div>
+                        <div class="link-desc">我的世界中文论坛</div>
+                    </div>
+                </a>
+                <!-- 5 -->
+                <a href="https://www.crazygames.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-dice"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">在线小游戏</div>
+                        <div class="link-desc">CrazyGames</div>
+                    </div>
+                </a>
+                <!-- 6 -->
+                <a href="https://www.fuzhu86.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-wrench"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">游戏辅助</div>
+                        <div class="link-desc">辅助吧</div>
+                    </div>
+                </a>
+                <!-- 7 -->
+                <a href="https://www.flysheep6.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-plane"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">小游戏合集</div>
+                        <div class="link-desc">资源避难所</div>
+                    </div>
+                </a>
+                <!-- 8 -->
+                <a href="https://www.fy6b.com/special/games" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fab fa-android"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">安卓游戏推荐</div>
+                        <div class="link-desc">枫叶应用</div>
+                    </div>
+                </a>
+                <!-- 9 -->
+                <a href="https://www.gamer520.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">移植游戏大全</div>
+                        <div class="link-desc">Gamer520</div>
+                    </div>
+                </a>
+                <!-- 10 -->
+                <a href="https://steamzg.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fab fa-steam"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">游戏合集</div>
+                        <div class="link-desc">小叽资源网</div>
+                    </div>
+                </a>
+                <!-- 11 -->
+                <a href="https://zh.moegirl.org.cn/#/flow" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-female"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">萌娘百科</div>
+                        <div class="link-desc">ACG百科</div>
+                    </div>
+                </a>
+                <!-- 12 -->
+                <a href="https://tools.miku.ac/anime_tts/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-microphone-alt"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">语音合成1</div>
+                        <div class="link-desc">MikuTools</div>
+                    </div>
+                </a>
+                <!-- 13 -->
+                <a href="https://acgn.ttson.cn/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-volume-up"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">语音合成2</div>
+                        <div class="link-desc">ACGN声音</div>
+                    </div>
+                </a>
+            </div>
+        </div>
 
-        <!-- 2.免费图床 -->
-        <a href="https://postimages.org/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="card-name">免费图床</h3>
-          <p class="card-desc">提供免费的图片上传和存储服务</p>
-        </a>
+        <!-- 资源类板块 -->
+        <div class="category-section">
+            <div class="section-header">
+                <i class="fas fa-cloud-download-alt"></i>
+                <div class="section-title">资源类</div>
+            </div>
+            <div class="grid-container">
+                <!-- 1 -->
+                <a href="https://www.bygoukai.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-folder-open"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享1</div>
+                        <div class="link-desc">狗凯之家</div>
+                    </div>
+                </a>
+                <!-- 2 -->
+                <a href="https://haoyongzhai.netlify.app/#/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-home"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享2</div>
+                        <div class="link-desc">好用斋</div>
+                    </div>
+                </a>
+                <!-- 3 -->
+                <a href="https://www.fy6b.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-leaf"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享3</div>
+                        <div class="link-desc">枫叶应用</div>
+                    </div>
+                </a>
+                <!-- 4 -->
+                <a href="https://www.ghxi.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-seedling"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享4</div>
+                        <div class="link-desc">果核剥壳</div>
+                    </div>
+                </a>
+                <!-- 5 -->
+                <a href="https://www.uy5.net/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-clone"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享5</div>
+                        <div class="link-desc">克隆窝</div>
+                    </div>
+                </a>
+                <!-- 6 -->
+                <a href="https://bk.fookxue.cn//" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-snowflake"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享6</div>
+                        <div class="link-desc">风雪的博客</div>
+                    </div>
+                </a>
+                <!-- 7 -->
+                <a href="https://www.haitangw.cc/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-flower"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">资源分享7</div>
+                        <div class="link-desc">海棠文</div>
+                    </div>
+                </a>
+                <!-- 8 -->
+                <a href="https://openalternative.co/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-code-branch"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">开源软件平替</div>
+                        <div class="link-desc">OpenAlternative</div>
+                    </div>
+                </a>
+                <!-- 9 -->
+                <a href="https://docs.github.com/zh/desktop" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fab fa-github"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">Github教程</div>
+                        <div class="link-desc">Github Desktop</div>
+                    </div>
+                </a>
+                <!-- 10 -->
+                <a href="https://ziti.xxriji.cn/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-font"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">常用字体</div>
+                        <div class="link-desc">字体日记网</div>
+                    </div>
+                </a>
+                <!-- 11 -->
+                <a href="https://www.bizhihui.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-image"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">4K壁纸合集</div>
+                        <div class="link-desc">壁纸汇</div>
+                    </div>
+                </a>
+                <!-- 12 -->
+                <a href="https://www.hhkan0.com/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-film"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">免费影视剧</div>
+                        <div class="link-desc">好好看</div>
+                    </div>
+                </a>
+                <!-- 13 -->
+                <a href="https://www.fangpi.net/" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-music"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">免费音乐下载</div>
+                        <div class="link-desc">放屁音乐网</div>
+                    </div>
+                </a>
+                <!-- 14 -->
+                <a href="https://hunhepan.com/search" target="_blank" class="link-card">
+                    <div class="icon-box"><i class="fas fa-search"></i></div>
+                    <div class="text-box">
+                        <div class="link-title">网盘搜索</div>
+                        <div class="link-desc">混合盘搜索</div>
+                    </div>
+                </a>
+            </div>
+        </div>
 
-        <!-- 3.免费小说下载 -->
-        <a href="http://www.janpn.org/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-          </div>
-          <h3 class="card-name">免费小说下载</h3>
-          <p class="card-desc">键盘小说网提供各类小说资源下载</p>
-        </a>
-
-        <!-- 4.文档转换工具1 -->
-        <a href="https://www.ilovepdf.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <h3 class="card-name">文档转换工具</h3>
-          <p class="card-desc">支持PDF与其他格式的互相转换</p>
-        </a>
-
-        <!-- 5.游戏模型网站 -->
-        <a href="https://www.aplaybox.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          </div>
-          <h3 class="card-name">游戏模型网站</h3>
-          <p class="card-desc">模之屋提供各类游戏模型资源下载</p>
-        </a>
-
-        <!-- 6.外网模型网站 -->
-        <a href="https://gamebanana.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 class="card-name">外网模型网站</h3>
-          <p class="card-desc">GameBanana - 强大的英文游戏模型资源站</p>
-        </a>
-
-        <!-- 7.3DM模型网站 -->
-        <a href="https://mod.3dmgame.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-          </div>
-          <h3 class="card-name">3DM模型网站</h3>
-          <p class="card-desc">3DMgame - 强大的游戏模组资源站</p>
-        </a>
-
-        <!-- 8.CSS控件资源1 -->
-        <a href="https://css.bqrdh.com/safety-color" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
-          </div>
-          <h3 class="card-name">CSS控件资源</h3>
-          <p class="card-desc">CSS可视化工具和资源</p>
-        </a>
-
-        <!-- 9.CSS控件资源2 -->
-        <a href="https://uiverse.io/3HugaDa3/sour-bulldog-7" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
-          </div>
-          <h3 class="card-name">CSS控件资源</h3>
-          <p class="card-desc">UIVERSE - 精美的CSS组件库</p>
-        </a>
-
-        <!-- 10.CSS控件资源3 -->
-        <a href="https://www.meiye.art/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
-          </div>
-          <h3 class="card-name">CSS控件资源</h3>
-          <p class="card-desc">美叶 - 设计资源和CSS工具</p>
-        </a>
-
-        <!-- 11.ps网页版 -->
-        <a href="https://www.photopea.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="card-name">PS网页版</h3>
-          <p class="card-desc">Photopea - 在线Photoshop替代工具</p>
-        </a>
-
-        <!-- 12.ai助手 -->
-        <a href="https://agent.minimaxi.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-          </div>
-          <h3 class="card-name">AI助手</h3>
-          <p class="card-desc">MiniMaxi提供的AI辅助工具</p>
-        </a>
-
-        <!-- 13.视频转换工具 -->
-        <a href="https://www.mnggiflab.com/product-mng/gif2webp" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h3 class="card-name">视频转换工具</h3>
-          <p class="card-desc">支持GIF和WebP等格式转换</p>
-        </a>
-
-        <!-- 14.驱动升级 -->
-        <a href="https://help.ldmnq.com/docs/PQ917d" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-            </svg>
-          </div>
-          <h3 class="card-name">驱动升级</h3>
-          <p class="card-desc">电脑硬件驱动程序更新工具</p>
-        </a>
-
-        <!-- 15.桌面美化1 -->
-        <a href="https://xn--cjr960cm4qezv.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-            </svg>
-          </div>
-          <h3 class="card-name">桌面美化</h3>
-          <p class="card-desc">桌面星球提供的桌面美化工具</p>
-        </a>
-
-        <!-- 16.桌面美化2 -->
-        <a href="https://winmoes.com/tools/12948.html" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-            </svg>
-          </div>
-          <h3 class="card-name">桌面美化</h3>
-          <p class="card-desc">枫的主题美化工具</p>
-        </a>
-
-        <!-- 17.少儿编程 -->
-        <a href="https://scratch.zhike.in/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
-          <h3 class="card-name">少儿编程</h3>
-          <p class="card-desc">Scratch少儿编程学习平台</p>
-        </a>
-
-        <!-- 18.图标库 -->
-        <a href="https://fontawesome.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
-          </div>
-          <h3 class="card-name">图标库</h3>
-          <p class="card-desc">Font Awesome - 丰富的图标资源库</p>
-        </a>
-
-        <!-- 19.博客数据集成查看 -->
-        <a href="https://cloud.umami.is/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
-          <h3 class="card-name">博客数据集成查看</h3>
-          <p class="card-desc">Umami - 网站数据分析工具</p>
-        </a>
-
-        <!-- 20.嵌入博客评论系统 -->
-        <a href="https://cloud.mongodb.com/" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-          </div>
-          <h3 class="card-name">嵌入博客评论系统</h3>
-          <p class="card-desc">MongoDB云数据库服务</p>
-        </a>
-
-        <!-- 21.域名申请 -->
-        <a href="https://gname.vip/user#/domain_info/ym=yqamm.eu.cc" class="card" target="_blank">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-            </svg>
-          </div>
-          <h3 class="card-name">域名申请</h3>
-          <p class="card-desc">Gname - 域名注册和管理服务</p>
-        </a>
-      </div>
+        <footer style="text-align: center; padding: 20px; color: #9ca3af; font-size: 1rem; font-family: '/朱雀仿宋.ttf朱雀仿宋';">
+            <p><a href="https://github.com/qitinyu/YQ-nav" target="_blank" style="color: #9ca3af;">雨祁导航</a> by Github </p>
+            <p>Copyright © 2022-2026 Yu Qi| <a href="https://yqamm.eu.cc" target="_blank" style="color: #9ca3af;">https://yqamm.eu.cc</a></p>
+            
+        </footer>
     </div>
-  </div>
 
-  <script>
-    // 滚动动画效果
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('.section');
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
-
-      sections.forEach(section => {
-        observer.observe(section);
-      });
-
-      // 涟漪效果
-      document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function(e) {
-          const ripple = document.createElement('span');
-          ripple.className = 'ripple';
-          
-          const rect = this.getBoundingClientRect();
-          const size = Math.max(rect.width, rect.height);
-          const x = e.clientX - rect.left - size / 2;
-          const y = e.clientY - rect.top - size / 2;
-          
-          ripple.style.width = ripple.style.height = `${size}px`;
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
-          
-          this.appendChild(ripple);
-          
-          setTimeout(() => {
-            ripple.remove();
-          }, 600);
-        });
-      });
-    });
-  </script>
 </body>
 </html>
